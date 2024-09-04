@@ -7,13 +7,42 @@ import React from "react";
 import { BillboardColumn, columns } from "./columns";
 import { Separator } from "@radix-ui/react-separator";
 import { DataTable } from "./data.tabel";
+import ApiList from "@/components/ui/api-list";
+import { ApiAlertProps } from "@/components/ui/api-alert";
+import { useOrigin } from "@/hooks/use-origin";
 
 interface BillboardClientProps {
 	data: BillboardColumn[];
 }
+
 const BillboardClient: React.FC<BillboardClientProps> = ({ data = [] }) => {
 	const router = useRouter();
 	const { storeId } = useParams();
+	const origin = useOrigin();
+	const baseUrl = `${origin}/api/${storeId}`;
+	const apiListData: ApiAlertProps[] = [
+		{ title: "GET", description: `${baseUrl}/billboards`, variant: "public" },
+		{
+			title: "GET",
+			description: `${baseUrl}/billboards/{billboardId}`,
+			variant: "public",
+		},
+		{
+			title: "POST",
+			description: `${baseUrl}/billboards`,
+			variant: "admin",
+		},
+		{
+			title: "PATCH",
+			description: `${baseUrl}/billboards/{billboardId}`,
+			variant: "admin",
+		},
+		{
+			title: "DELETE",
+			description: `${baseUrl}/billboards/{billboardId}`,
+			variant: "admin",
+		},
+	];
 	return (
 		<>
 			<div className="flex items-center justify-between">
@@ -29,6 +58,8 @@ const BillboardClient: React.FC<BillboardClientProps> = ({ data = [] }) => {
 
 			<Separator />
 			<DataTable columns={columns} data={data} />
+			<Heading title="API" description="API calls for Billboards" />
+			<ApiList data={apiListData} />
 		</>
 	);
 };

@@ -6,7 +6,7 @@ import { Badge, BadgeProps } from "./badge";
 import { Button } from "./button";
 import toast from "react-hot-toast";
 
-interface ApiAlertProps {
+export interface ApiAlertProps {
 	title: string;
 	description: string;
 	variant: "public" | "admin";
