@@ -22,7 +22,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 	useEffect(() => {
 		setIsMounted(true);
 	}, []);
-	console.log({ value });
 	const onUpload = (result: any) => {
 		console.log(result.info.secure_url);
 		onChange(result.info.secure_url);

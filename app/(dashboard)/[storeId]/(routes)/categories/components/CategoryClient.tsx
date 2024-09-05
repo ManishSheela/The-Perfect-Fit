@@ -4,18 +4,18 @@ import Heading from "@/components/ui/heading";
 import { Plus } from "lucide-react";
 import { useRouter, useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { BillboardColumn, columns } from "./columns";
+import { CategoryColumn, columns } from "./columns";
 import { Separator } from "@radix-ui/react-separator";
 import { DataTable } from "./data.tabel";
 import ApiList from "@/components/ui/api-list";
 import { ApiAlertProps } from "@/components/ui/api-alert";
 import { useOrigin } from "@/hooks/use-origin";
 
-interface BillboardClientProps {
-	data: BillboardColumn[];
+interface CategoryClientProps {
+	data: CategoryColumn[];
 }
 
-const BillboardClient: React.FC<BillboardClientProps> = ({ data = [] }) => {
+const CategoryClient: React.FC<CategoryClientProps> = ({ data = [] }) => {
 	const router = useRouter();
 	const { storeId } = useParams();
 	const origin = useOrigin();
@@ -28,25 +28,25 @@ const BillboardClient: React.FC<BillboardClientProps> = ({ data = [] }) => {
 
 	if (!isMounted) return null;
 	const apiListData: ApiAlertProps[] = [
-		{ title: "GET", description: `${baseUrl}/billboards`, variant: "public" },
+		{ title: "GET", description: `${baseUrl}/categories`, variant: "public" },
 		{
 			title: "GET",
-			description: `${baseUrl}/billboards/{billboardId}`,
+			description: `${baseUrl}/categories/{categoryId}`,
 			variant: "public",
 		},
 		{
 			title: "POST",
-			description: `${baseUrl}/billboards`,
+			description: `${baseUrl}/categories`,
 			variant: "admin",
 		},
 		{
 			title: "PATCH",
-			description: `${baseUrl}/billboards/{billboardId}`,
+			description: `${baseUrl}/categories/{categoryId}`,
 			variant: "admin",
 		},
 		{
 			title: "DELETE",
-			description: `${baseUrl}/billboards/{billboardId}`,
+			description: `${baseUrl}/categories/{categoryId}`,
 			variant: "admin",
 		},
 	];
@@ -54,10 +54,10 @@ const BillboardClient: React.FC<BillboardClientProps> = ({ data = [] }) => {
 		<>
 			<div className="flex items-center justify-between">
 				<Heading
-					title={`Billboards (${data?.length})`}
-					description="Manage billboards for your store"
+					title={`Categories (${data?.length})`}
+					description="Manage Categories for your store"
 				/>
-				<Button onClick={() => router.push(`/${storeId}/billboards/new`)}>
+				<Button onClick={() => router.push(`/${storeId}/categories/new`)}>
 					<Plus className="w-4 h-4 mr-2" />
 					Add New
 				</Button>
@@ -65,10 +65,10 @@ const BillboardClient: React.FC<BillboardClientProps> = ({ data = [] }) => {
 
 			<Separator />
 			<DataTable columns={columns} data={data} />
-			<Heading title="API" description="API calls for Billboards" />
+			<Heading title="API" description="API calls for Categories" />
 			<ApiList data={apiListData} />
 		</>
 	);
 };
 
-export default BillboardClient;
+export default CategoryClient;

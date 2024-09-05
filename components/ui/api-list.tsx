@@ -8,9 +8,9 @@ interface ApiListProps {
 const ApiList: React.FC<ApiListProps> = ({ data }) => {
 	return (
 		<>
-			{data.map((item: ApiAlertProps) => (
+			{data.map((item: ApiAlertProps, index) => (
 				<ApiAlert
-					key={item?.description}
+					key={`${item?.description} ${index}`}
 					title={item?.title}
 					description={item.description}
 					variant={item?.variant}
