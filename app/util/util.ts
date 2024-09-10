@@ -9,3 +9,10 @@ import { auth } from "@clerk/nextjs";
 // 	}
 // 	return userId;
 // }
+
+export function formatter(number: number) {
+	return new Intl.NumberFormat("en-IN", {
+		style: "currency",
+		currency: "INR",
+	}).format(number);
+}

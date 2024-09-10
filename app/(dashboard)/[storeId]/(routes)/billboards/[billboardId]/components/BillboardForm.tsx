@@ -32,7 +32,7 @@ export const billboardFormSchema = z.object({
 	imageUrl: z.string().min(1),
 });
 
-const BillboardForm = ({ initialData }: { initialData: Billboard }) => {
+const BillboardForm = ({ initialData }: { initialData: Billboard | null }) => {
 	const [loading, setLoading] = useState(false);
 	const [open, setOpen] = useState(false);
 	const { storeId, billboardId } = useParams();

@@ -12,7 +12,7 @@ export async function GET(
 
 		const billboards = await prismadb.billboard.findMany({
 			where: {
-				id: params.storeId,
+				storeId: params.storeId,
 			},
 		});
 		return NextResponse.json(billboards);
@@ -35,7 +35,6 @@ export async function POST(
 		if (!imageUrl)
 			return new NextResponse("Image URL is required", { status: 400 });
 
-		console.log({ body });
 
 		const billboard = await prismadb.billboard.create({
 			data: {

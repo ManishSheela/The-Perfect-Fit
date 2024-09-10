@@ -23,9 +23,11 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 		setIsMounted(true);
 	}, []);
 	const onUpload = (result: any) => {
-		console.log(result.info.secure_url);
-		onChange(result.info.secure_url);
+		console.log({ result });
+		const newImageUrl = result.info.secure_url;
+		onChange(newImageUrl);
 	};
+	console.log({value});
 
 	if (!isMounted) return null;
 
@@ -56,7 +58,16 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 					</div>
 				))}
 			</div>
-			<CldUploadWidget onSuccess={onUpload} uploadPreset="jg6xzyvs">
+			<CldUploadWidget
+				onSuccess={onUpload}
+				uploadPreset="jg6xzyvs"
+				options={{
+					multiple: true,
+					maxFiles: 5,
+					sources: ["local", "url", "unsplash"],
+				}}
+				onQueuesEnd={(res) => console.log({res})}
+			>
 				{({ open }) => {
 					const onClick = () => {
 						open();
