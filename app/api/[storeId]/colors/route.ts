@@ -8,13 +8,14 @@ export async function GET(
 ) {
 	try {
 		const { userId } = auth();
-		if (!userId) return new NextResponse("Unauthenticated", { status: 401 });
+		// if (!userId) return new NextResponse("Unauthenticated", { status: 401 });
 
 		const colors = await prismadb.color.findMany({
 			where: {
-				id: params.storeId,
+				storeId: params.storeId,
 			},
 		});
+		console.log({colors});
 		return NextResponse.json(colors);
 	} catch (err) {
 		console.log("[COLORS_GET]", err);

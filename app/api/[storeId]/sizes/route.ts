@@ -8,13 +8,14 @@ export async function GET(
 ) {
 	try {
 		const { userId } = auth();
-		if (!userId) return new NextResponse("Unauthenticated", { status: 401 });
+		// if (!userId) return new NextResponse("Unauthenticated", { status: 401 });
 
 		const sizes = await prismadb.size.findMany({
 			where: {
-				id: params.storeId,
+				storeId: params.storeId,
 			},
 		});
+		console.log({sizes});
 		return NextResponse.json(sizes);
 	} catch (err) {
 		console.log("[SIZE_GET]", err);

@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Urbanist } from "next/font/google";
 import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { Toaster } from "react-hot-toast";
-import ModalProvider from "@/providers/modal-provider";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Urbanist({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-	title: "The Perfect Fit Dashboard",
-	description: "The Perfect Fit Dashboard",
+	title: "The Perfect Fit",
+	description: "E-commerce Store",
 };
 
 export default function RootLayout({
@@ -18,14 +18,13 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<ClerkProvider>
-			<html lang="en">
-				<body className={inter.className} suppressHydrationWarning={true}>
-					<ModalProvider />
-					<Toaster />
-					{children}
-				</body>
-			</html>
-		</ClerkProvider>
+		<html lang="en">
+			<body className={inter.className}>
+				<Toaster position="top-center" reverseOrder={false} />
+				<Navbar />
+				{children}
+				<Footer />
+			</body>
+		</html>
 	);
 }

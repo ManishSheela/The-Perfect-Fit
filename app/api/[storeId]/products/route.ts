@@ -7,34 +7,40 @@ export async function GET(
 	{ params }: { params: { storeId: string } }
 ) {
 	try {
-		const { userId } = await auth();
+		const { userId } = auth();
+		// if (!userId) return new NextResponse("Unauthenticated", { status: 401 });
+
 		const { searchParams } = new URL(req.url);
+		const categoryId = searchParams.get("categoryId") || undefined;
+		const colorId = searchParams.get("colorId") || undefined;
+		const sizeId = searchParams.get("sizeId") || undefined;
+		const isFeatured =
+			searchParams.get("isFeatured") === "true" ? true : undefined;
 
-		console.log({searchParams})
-		console.log('url',req.url);
-		if (!userId) return new NextResponse("Unauthenticated", { status: 401 });
+		if (!params.storeId) {
+			return new NextResponse("Store ID is required", { status: 400 });
+		}
 
-		// const { categoryId, colorId, sizeId, isFeatured } = searchParams;
-		// const products = await prismadb.product.findMany({
-		// 	where: {
-		// 		storeId: params.storeId,
-		// 		categoryId: categoryId || undefined, // Optional filtering
-		// 		colorId: colorId || undefined,
-		// 		sizeId: sizeId || undefined,
-		// 		isFeatured: isFeatured ? true : undefined,
-		// 		isArchived: false,
-		// 	},
-		// 	include: {
-		// 		images: true,
-		// 		category: true,
-		// 		color: true,
-		// 		size: true,
-		// 	},
-		// });
+		const products = await prismadb.product.findMany({
+			where: {
+				storeId: params.storeId,
+				categoryId,
+				colorId,
+				sizeId,
+				isFeatured,
+				isArchived: false, // Ensure this correctly filters non-archived products
+			},
+			include: {
+				images: true,
+				category: true,
+				color: true,
+				size: true,
+			},
+		});
 
-		return NextResponse.json({});
+		return NextResponse.json(products);
 	} catch (err) {
-		console.log("[PRODUCTS_GET]", err);
+		console.error("[PRODUCTS_GET]", err);
 		return new NextResponse("Internal server error", { status: 500 });
 	}
 }

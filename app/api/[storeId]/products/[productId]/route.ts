@@ -8,9 +8,9 @@ export async function GET(
 ) {
 	try {
 		const { userId } = auth();
-		if (!userId) return new NextResponse("Unauthenticated", { status: 401 });
+		// if (!userId) return new NextResponse("Unauthenticated", { status: 401 });
 
-		const product = await prismadb.product.findMany({
+		const product = await prismadb.product.findUnique({
 			where: {
 				id: params.productId,
 			},
@@ -21,7 +21,6 @@ export async function GET(
 				images: true,
 			},
 		});
-		console.log({ product });
 		return NextResponse.json(product);
 	} catch (err) {
 		console.log("[PRODUCT_GET]", err);

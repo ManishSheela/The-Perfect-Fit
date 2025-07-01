@@ -7,17 +7,17 @@ export async function GET(
 	{ params }: { params: { storeId: string } }
 ) {
 	try {
-		const { userId } = auth();
-		if (!userId) return new NextResponse("Unauthenticated", { status: 401 });
+		// const { userId } = auth();
+		// if (!userId) return new NextResponse("Unauthenticated", { status: 401 });
 
 		const categories = await prismadb.category.findMany({
 			where: {
-				id: params.storeId,
+				storeId: params.storeId,
 			},
 		});
 		return NextResponse.json(categories);
 	} catch (err) {
-		console.log("[BILLBOARDS_GET]", err);
+		console.log("[CATEGORIES_GET]", err);
 		return new NextResponse("Internal server error", { status: 500 });
 	}
 }
@@ -34,8 +34,6 @@ export async function POST(
 		if (!name) return new NextResponse("name is required", { status: 400 });
 		if (!billboardId)
 			return new NextResponse("billboardId  is required", { status: 400 });
-
-		console.log({ body });
 
 		const category = await prismadb.category.create({
 			data: {

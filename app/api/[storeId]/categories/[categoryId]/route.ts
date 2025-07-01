@@ -8,11 +8,14 @@ export async function GET(
 ) {
 	try {
 		const { userId } = auth();
-		if (!userId) return new NextResponse("Unauthenticated", { status: 401 });
+		// if (!userId) return new NextResponse("Unauthenticated", { status: 401 });
 
 		const category = await prismadb.category.findMany({
 			where: {
 				id: params.categoryId,
+			},
+			include: {
+				billboard: true,
 			},
 		});
 		return NextResponse.json(category);
